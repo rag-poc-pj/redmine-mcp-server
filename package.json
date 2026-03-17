@@ -1,0 +1,30 @@
+{
+  "name": "redmine-mcp-server",
+  "version": "1.0.0",
+  "description": "Redmine MCP Server for GenU (AWS Lambda + API Gateway)",
+  "type": "module",
+  "main": "dist/lambda.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "deploy": "npm run build && serverless deploy",
+    "deploy:prod": "npm run build && serverless deploy --stage prod"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.0",
+    "express": "^4.21.0",
+    "serverless-http": "^3.2.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "serverless": "^3.38.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

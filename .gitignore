@@ -1,0 +1,23 @@
+# 依存関係
+node_modules/
+
+# ビルド成果物
+dist/
+
+# 環境変数（機密情報）- 絶対にコミットしない！
+.env
+.env.local
+.env.*.local
+
+# Serverless Framework
+.serverless/
+
+# OS / Editor
+.DS_Store
+*.swp
+.vscode/
+.idea/
+
+# ログ
+*.log
+npm-debug.log*

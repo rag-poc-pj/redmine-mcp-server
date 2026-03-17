@@ -1,0 +1,54 @@
+service: redmine-mcp-server
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-northeast-1  # 東京リージョン
+  stage: ${opt:stage, 'dev'}
+  memorySize: 256
+  timeout: 30
+  environment:
+    REDMINE_URL: ${ssm:/redmine-mcp/${self:provider.stage}/REDMINE_URL}
+    REDMINE_API_KEY: ${ssm:/redmine-mcp/${self:provider.stage}/REDMINE_API_KEY}
+  # VPC設定（RedmineがVPC内にある場合はコメントアウトを外す）
+  # vpc:
+  #   securityGroupIds:
+  #     - sg-xxxxxxxxxxxxxxxxx
+  #   subnetIds:
+  #     - subnet-xxxxxxxxxxxxxxxxx
+
+functions:
+  mcp:
+    handler: dist/lambda.handler
+    events:
+      - http:
+          path: /mcp
+          method: post
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+      - http:
+          path: /health
+          method: get
+
+plugins:
+  - serverless-offline  # ローカルテスト用
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+
+package:
+  patterns:
+    - "!src/**"
+    - "!*.ts"
+    - "!tsconfig.json"
+    - "!.env*"
+    - "dist/**"
+    - "node_modules/**"
