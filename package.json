@@ -4,8 +4,12 @@
   "description": "Redmine MCP Server for GenU (AWS Lambda + API Gateway)",
   "type": "module",
   "main": "dist/lambda.js",
+  "bin": {
+    "redmine-mcp-server": "dist/stdio.js"
+  },
   "scripts": {
     "build": "tsc",
+    "prepare": "npm run build",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "deploy": "npm run build && serverless deploy",
